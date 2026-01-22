@@ -13,7 +13,7 @@ fn main() {
 
     loop {
         thread::sleep(Duration::from_millis(500));
-        let cnt = CNT.fetch_add(0, Ordering::SeqCst);
+        let cnt = CNT.load(Ordering::Relaxed);
         if cnt > 0 { break; }
     }
 }
