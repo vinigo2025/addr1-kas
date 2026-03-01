@@ -7,12 +7,13 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 pub static CNT: AtomicUsize = AtomicUsize::new(0);
 
 pub fn entr() {
-    let _rs = lmain();
     CNT.fetch_add(1, Ordering::SeqCst);
+    let _ = lmain().unwrap();
+    CNT.fetch_sub(1, Ordering::SeqCst);
 }
 
 pub fn lmain() -> Result<(), Box<dyn std::error::Error>> {
-    let target_suffix = "yes";
+    let target_suffix = "aa";
     let mut attempt_count = 0u32;
 
     loop {
@@ -49,6 +50,7 @@ pub fn lmain() -> Result<(), Box<dyn std::error::Error>> {
 
         //
         if address.ends_with(target_suffix) {
+            println!();
             println!(
                 "\n=== SUCCESS! Found address with suffix '{}' ===",
                 target_suffix
